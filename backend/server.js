@@ -58,10 +58,18 @@ app.post('/logindetails', (req, res) => {
     console.log('Mail ', mail);
 });
 
+// user name 
+app.get('/user_name', (req, res) => {
+    conn.query("select fname from user where ( mail='" + userDetails.mail + "');", function (err, result) {
+        if (err)
+            throw err;
+        res.send(result);
+    })
+});
+
 // created datetime
 let currentTimestamp = {};
-const currentDate = new Date();
-console.log(currentDate);
+const currentDate = new Date(); // console.log(currentDate);
 
 // user to do task 
 app.post("/user_task", function (req, res) {

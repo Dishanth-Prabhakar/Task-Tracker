@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import { LogOut, UserRound, Plus } from 'lucide-react';
 import './home.css';
 
 function Home() {
     const [isLoggedIn, setIsLoggedIn] = useState(true); // Assuming the user is logged in initially
+    const [fname, setFname] = useState('');
     const navigate = useNavigate();
 
     const handleSignOut = () => {
@@ -14,11 +16,11 @@ function Home() {
     };
 
     useEffect(() => {
-        if (isLoggedIn) {
-            const timeoutId = setTimeout(handleSignOut, 30 * 60000);
-            return () => clearTimeout(timeoutId);
-        }
-    }, [isLoggedIn]);
+        const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
+        axios.get(`${backendUrl}/user_name`).then((response) => {
+            setFname(response.data[0].fname);
+        });
+    }, []);
 
     return (
         <>
@@ -27,8 +29,10 @@ function Home() {
                     <h1>Task Tracker</h1>
                 </div>
                 <div className="navbar-right">
-                    <span className='user_details'>
-                        <UserRound /></span>
+                    <div className='user-container'>
+                        <UserRound className="user-pic" />
+                        <span className="user-name">{fname}</span>
+                    </div>
                     <button onClick={handleSignOut} className="logout-button"><LogOut /></button>
                 </div>
             </nav>
@@ -69,7 +73,6 @@ function Home() {
                         <button className="add-card">< Plus /></button>
                     </div>
                 </div>
-
             </div>
         </>
     );
