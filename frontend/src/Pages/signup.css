@@ -1,0 +1,56 @@
+.signup-page {    
+    width: 480px;
+    margin: auto;
+}
+h2{
+    margin-top: 0px;
+}
+.sign-form {
+    position: relative;
+    z-index: 1;
+    background: #FFFFFF;
+    max-width: 480px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+.sign-form input {
+    font-family: "Roboto", sans-serif;
+    outline: 0;
+    background: #f2f2f2;
+    width: 100%;
+    border: 0;
+    margin: 0 0 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+.sign-form button {
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    outline: 0;
+    background: #4CAF50;
+    width: 100%;
+    border: 0;
+    padding: 12px;
+    color: #FFFFFF;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.or-text{
+    color: #9a9292;
+}
+
+.google-login{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.pg-link{
+    text-decoration: none;
+}
