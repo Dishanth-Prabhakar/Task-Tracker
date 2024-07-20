@@ -58,7 +58,7 @@ app.post('/logindetails', (req, res) => {
     console.log('Mail ', mail);
 });
 
-// user name 
+// user name retrieval
 app.get('/user_name', (req, res) => {
     conn.query("select fname from user where ( mail='" + userDetails.mail + "');", function (err, result) {
         if (err)
@@ -71,11 +71,11 @@ app.get('/user_name', (req, res) => {
 let currentTimestamp = {};
 const currentDate = new Date(); // console.log(currentDate);
 
-// user to do task 
-app.post("/user_task", function (req, res) {
+// user backlog task insertion
+app.post("/backlog_task", function (req, res) {
     console.log(req.body);
     console.log("user task");
-    conn.query("insert into todotask(mail,taskname, taskdesc, created)values('" + userDetails.mail + "','" + req.body.taskname + "','" + req.body.taskdesc + "','" + currentDate + "');", function (err, result) {
+    conn.query("insert into backtask(mail,backtkname, backtkdesc, backtkdate)values('" + userDetails.mail + "','" + req.body.backtkname + "','" + req.body.backtkdesc + "','" + currentDate + "');", function (err, result) {
         if (err)
             throw err;
         console.log(result);
@@ -83,4 +83,74 @@ app.post("/user_task", function (req, res) {
     res.send("insert");
 })
 
+// user backlog task retrieval
+app.get('/backtk_fetch', (req, res) => {
+    conn.query("select backtkname, backtkdesc, backtkdate from backtask where ( mail='" + userDetails.mail + "');", function (err, result) {
+        if (err)
+            throw err;
+        res.send(result);
+    })
+});
 
+// user to do task insertion
+app.post("/todo_task", function (req, res) {
+    console.log(req.body);
+    console.log("user task");
+    conn.query("insert into todotask(mail,todotkname, todotkdesc, todotkdate)values('" + userDetails.mail + "','" + req.body.todotkname + "','" + req.body.todotkdesc + "','" + currentDate + "');", function (err, result) {
+        if (err)
+            throw err;
+        console.log(result);
+    });
+    res.send("insert");
+})
+
+// user to do task retrieval
+app.get('/todotk_fetch', (req, res) => {
+    conn.query("select todotkname, todotkdesc, todotkdate from todotask where ( mail='" + userDetails.mail + "');", function (err, result) {
+        if (err)
+            throw err;
+        res.send(result);
+    })
+});
+
+// user doing task insertion
+app.post("/doing_task", function (req, res) {
+    console.log(req.body);
+    console.log("user task");
+    conn.query("insert into doingtask(mail,doingtkname, doingtkdesc, doingtkdate)values('" + userDetails.mail + "','" + req.body.doingtkname + "','" + req.body.doingtkdesc + "','" + currentDate + "');", function (err, result) {
+        if (err)
+            throw err;
+        console.log(result);
+    });
+    res.send("insert");
+})
+
+// user doing task retrieval
+app.get('/doingtk_fetch', (req, res) => {
+    conn.query("select doingtkname, doingtkdesc, doingtkdate from doingtask where ( mail='" + userDetails.mail + "');", function (err, result) {
+        if (err)
+            throw err;
+        res.send(result);
+    })
+});
+
+// user done task insertion
+app.post("/done_task", function (req, res) {
+    console.log(req.body);
+    console.log("user task");
+    conn.query("insert into donetask(mail,donetkname, donetkdesc, donetkdate)values('" + userDetails.mail + "','" + req.body.donetkname + "','" + req.body.donetkdesc + "','" + currentDate + "');", function (err, result) {
+        if (err)
+            throw err;
+        console.log(result);
+    });
+    res.send("insert");
+})
+
+// user done task retrieval
+app.get('/donetk_fetch', (req, res) => {
+    conn.query("select donetkname, donetkdesc, donetkdate from donetask where ( mail='" + userDetails.mail + "');", function (err, result) {
+        if (err)
+            throw err;
+        res.send(result);
+    })
+});
