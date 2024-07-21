@@ -72,8 +72,6 @@ app.post("/google_login", function (req, res) {
     })
 })
 
-
-
 // login user email address
 let userDetails = {};
 app.post('/logindetails', (req, res) => {
@@ -103,7 +101,6 @@ const formattedDate = created.toLocaleString('en-IN', {
   second: '2-digit',
   hour12: false
 }).replace(',', '');
-
 // console.log(formattedDate);
 
 

@@ -45,6 +45,7 @@ function Home() {
     }, [isLoggedIn, handleSignOut]); 
 
 
+    // to fetch username
     useEffect(() => {
         const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
         axios.get(`${backendUrl}/user_name`).then((response) => {
@@ -52,6 +53,7 @@ function Home() {
         });
     }, []);
 
+    // to fetch backlog tasks
     useEffect(() => {
         const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
         axios.get(`${backendUrl}/backtk_fetch`).then((response) => {
@@ -60,11 +62,13 @@ function Home() {
         })
     }, [])
 
+    // to view backlog card
     const handleViewbk = (item) => {
         setSelectedItem(item);
         setViewbk(true);
     };
 
+    // to fetch to do tasks
     useEffect(() => {
         const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
         axios.get(`${backendUrl}/todotk_fetch`).then((response) => {
@@ -73,11 +77,13 @@ function Home() {
         })
     }, [])
 
+    // to view to do card
     const handleViewtodo = (item) => {
         setSelectedItem(item);
         setViewtodo(true);
     };
 
+    // to fetch doing tasks
     useEffect(() => {
         const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
         axios.get(`${backendUrl}/doingtk_fetch`).then((response) => {
@@ -86,11 +92,13 @@ function Home() {
         })
     }, [])
 
+    // to view doing card
     const handleViewdoing = (item) => {
         setSelectedItem(item);
         setViewdoing(true);
     };
 
+    // to fetch done tasks
     useEffect(() => {
         const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
         axios.get(`${backendUrl}/donetk_fetch`).then((response) => {
@@ -99,6 +107,7 @@ function Home() {
         })
     }, [])
 
+    // to view done card
     const handleViewdone = (item) => {
         setSelectedItem(item);
         setViewdone(true);

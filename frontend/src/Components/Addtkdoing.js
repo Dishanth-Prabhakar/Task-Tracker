@@ -7,6 +7,7 @@ function Addtkdoing({ onClose }) {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
 
+    // to add card to doing tasks
     const handleAdd = () => {
         const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
         axios.post(`${backendUrl}/doing_task`, {

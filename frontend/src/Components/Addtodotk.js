@@ -7,6 +7,7 @@ function Addtodotk({ onClose }) {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
 
+    // to add card to todo tasks
     const handleAdd = () => {
         const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
         axios.post(`${backendUrl}/todo_task`, {

@@ -22,6 +22,7 @@ function Signup() {
         }
     }, [isLoggedIn]);
 
+    // Manual signup process
     const handlesignup = (e) => {
         e.preventDefault();
         if (fname === "" || lname === "" || mail === "" || password === "" || cpassword === "") {
@@ -62,6 +63,7 @@ function Signup() {
         };
     }
 
+    // Google signup process
     const handleLoginSuccess = (credentialResponse) => {
         const decoded = jwtDecode(credentialResponse.credential);
         setIsLoggedIn(true);
@@ -100,6 +102,7 @@ function Signup() {
         sessionStorage.removeItem('token');
     };
 
+    // api call to send mail id to backend
     const sendtobackend = (mailid) => {
         const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
         axios.post(`${backendUrl}/logindetails`, {

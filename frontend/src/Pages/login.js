@@ -19,6 +19,7 @@ function Login() {
         }
     }, [isLoggedIn]);
 
+    // Manual login 
     const handleLogin = (e) => {
         e.preventDefault();
         if (mail === "" || password === "") {
@@ -47,6 +48,7 @@ function Login() {
         }
     };
 
+    // Google login
     const handleLoginSuccess = (credentialResponse) => {
         const decoded = jwtDecode(credentialResponse.credential);
         const userEmail = decoded.email;
@@ -71,6 +73,7 @@ function Login() {
         });
     };
 
+    // api call to send mail id to backend
     const sendtobackend = (mailid) => {
         const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
         axios.post(`${backendUrl}/logindetails`, {
