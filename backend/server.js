@@ -39,6 +39,17 @@ app.post("/user_signup", function (req, res) {
     res.send("insert");
 })
 
+app.post("/google_signup", function (req, res) {
+    // console.log("google ",req.body.mail);
+    conn.query("select * from user where ( mail='" + req.body.mail + "');", function (err, result) {
+        if (result == "") {
+            res.send("right");
+        } else {
+            res.send("present");
+        }
+    })
+})
+
 // user login
 app.post("/user_login", function (req, res) {
     conn.query("select * from user where ( mail='" + req.body.mail + "') & ( password='" + req.body.password + "');", function (err, result) {
@@ -49,6 +60,19 @@ app.post("/user_login", function (req, res) {
         }
     })
 })
+
+app.post("/google_login", function (req, res) {
+    // console.log("google ",req.body.mail);
+    conn.query("select * from user where ( mail='" + req.body.mail + "');", function (err, result) {
+        if (result == "") {
+            res.send("wrong");
+        } else {
+            res.send("right");
+        }
+    })
+})
+
+
 
 // login user email address
 let userDetails = {};

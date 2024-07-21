@@ -52,9 +52,23 @@ function Login() {
         const userEmail = decoded.email;
         setIsLoggedIn(true);
         setMail(userEmail);
-        sendtobackend(userEmail);
-        sessionStorage.setItem('token', credentialResponse.credential);
-        navigate('/home');
+        const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
+        axios.post(`${backendUrl}/google_login`, {
+            mail: userEmail
+        }).then((response) => {
+            console.log(response);
+            if (response.data === "wrong") {
+                setStatus("Don't have an account > SignUp!");
+            } else {
+                setStatus("Welcome");
+                setIsLoggedIn(true);
+                sessionStorage.setItem('token', response.data.token);
+                sendtobackend(userEmail);
+                navigate('/home');
+            }
+        }).catch((error) => {
+            console.error("Error logging in:", error);
+        });
     };
 
     const sendtobackend = (mailid) => {

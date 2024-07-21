@@ -30,27 +30,37 @@ function Signup() {
         }
         else {
             const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
-            axios.post(`${backendUrl}/user_signup`, {
-                fname: fname,
-                lname: lname,
-                mail: mail,
-                password: password
+            axios.post(`${backendUrl}/google_signup`, {
+                mail: mail
             }).then((response) => {
-                if (response.data === "wrong") {
-                    setStatus("Invalid email or password");
+                console.log(response);
+                if (response.data === "present") {
+                    setStatus("Account already exists > Login!");
                 } else {
-                    setStatus("Welcome");
-                    setIsLoggedIn(true);
-                    sessionStorage.setItem('token', response.data.token);
-                    console.log("mail", mail);
-                    sendtobackend(mail);
-                    navigate('/home');
+                    const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
+                    axios.post(`${backendUrl}/user_signup`, {
+                        fname: fname,
+                        lname: lname,
+                        mail: mail,
+                        password: password
+                    }).then((response) => {
+                        if (response.data === "wrong") {
+                            setStatus("Invalid email or password");
+                        } else {
+                            setStatus("Welcome");
+                            setIsLoggedIn(true);
+                            sessionStorage.setItem('token', response.data.token);
+                            console.log("mail", mail);
+                            sendtobackend(mail);
+                            navigate('/home');
+                        }
+                    }).catch((error) => {
+                        console.error("Error logging in:", error);
+                    });
                 }
-            }).catch((error) => {
-                console.error("Error logging in:", error);
             });
-        }
-    };
+        };
+    }
 
     const handleLoginSuccess = (credentialResponse) => {
         const decoded = jwtDecode(credentialResponse.credential);
@@ -61,8 +71,22 @@ function Signup() {
         setFname(userfname);
         setLname(userlname);
         setMail(userEmail);
-        sendtobackend(userEmail);
-        sessionStorage.setItem('token', credentialResponse.credential);
+        const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
+        axios.post(`${backendUrl}/google_signup`, {
+            mail: userEmail
+        }).then((response) => {
+            console.log(response);
+            if (response.data === "present") {
+                setStatus("Account already exists > Login!");
+            } else {
+                setFname(userfname);
+                setLname(userlname);
+                setMail(userEmail);
+                sendtobackend(userEmail);
+            }
+        }).catch((error) => {
+            console.error("Error logging in:", error);
+        });
     };
 
     const handleLoginError = () => {
@@ -114,7 +138,6 @@ function Signup() {
                                 onError={handleLoginError}
                             />
                         </GoogleOAuthProvider>
-
                     </div>
 
                     <p>Already have an account?
