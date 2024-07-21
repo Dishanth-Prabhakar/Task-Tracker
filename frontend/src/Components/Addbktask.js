@@ -13,7 +13,7 @@ function Addbktask({ onClose }) {
             backtkname: title,
             backtkdesc: description
         }).then(() => {
-            console.log("Inserted  backlog task");
+            console.log("Inserted backlog task");
         }).catch((error) => {
             console.error("Error sending to backend:", error);
         });

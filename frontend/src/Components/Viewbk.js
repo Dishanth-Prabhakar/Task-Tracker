@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { X } from 'lucide-react';
 import './addcard.css';
 
 function Viewbk({ item, onClose }) {
+    const [id, setID] = useState('');
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
 
     useEffect(() => {
         if (item) {
+            setID(item.backtk_id);
             setTitle(item.backtkname);
             setDescription(item.backtkdesc);
         }
@@ -16,10 +19,18 @@ function Viewbk({ item, onClose }) {
     if (!item) return null;
 
     const handleupbk = () => {
-        // Handle the update action here, such as making an API call
-        console.log('Title:', title);
-        console.log('Description:', description);
+        const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
+        axios.put(`${backendUrl}/backlog_update`, {
+            backtk_id: id,
+            backtkname: title,
+            backtkdesc: description
+        }).then(() => {
+            console.log("Updated backlog task");
+        }).catch((error) => {
+            console.error("Error sending to backend:", error);
+        });
         onClose();
+        window.location.reload();
     };
 
     return (

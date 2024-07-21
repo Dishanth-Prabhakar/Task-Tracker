@@ -93,6 +93,19 @@ app.get('/backtk_fetch', (req, res) => {
     })
 });
 
+// update backlog task 
+app.put('/backlog_update', (req, res) => {
+    // console.log(req.body);
+    conn.query("update backtask set backtkname='" + req.body.backtkname + "', backtkdesc='" + req.body.backtkdesc + "'  where backtk_id=" + req.body.backtk_id + ";", function (err, result) {
+        if (err)
+            throw err;
+        res.send(result);
+    })
+});
+
+// delete backlog task
+
+
 // user to do task insertion
 app.post("/todo_task", function (req, res) {
     // console.log(req.body);
@@ -114,6 +127,17 @@ app.get('/todotk_fetch', (req, res) => {
         res.send(result);
     })
 });
+
+// update todo task 
+app.put('/todo_update', (req, res) => {
+    // console.log(req.body);
+    conn.query("update todotask set todotkname='" + req.body.todotkname + "', todotkdesc='" + req.body.todotkdesc + "'  where todo_id=" + req.body.todo_id + ";", function (err, result) {
+        if (err)
+            throw err;
+        res.send(result);
+    })
+});
+
 
 // user doing task insertion
 app.post("/doing_task", function (req, res) {
@@ -137,6 +161,16 @@ app.get('/doingtk_fetch', (req, res) => {
     })
 });
 
+// update doing task 
+app.put('/doing_update', (req, res) => {
+    // console.log(req.body);
+    conn.query("update doingtask set doingtkname='" + req.body.doingtkname + "', doingtkdesc='" + req.body.doingtkdesc + "'  where doing_id=" + req.body.doing_id + ";", function (err, result) {
+        if (err)
+            throw err;
+        res.send(result);
+    })
+});
+
 // user done task insertion
 app.post("/done_task", function (req, res) {
     // console.log(req.body);
@@ -155,6 +189,16 @@ app.get('/donetk_fetch', (req, res) => {
         if (err)
             throw err;
         // console.log("done", result);
+        res.send(result);
+    })
+});
+
+// update done task 
+app.put('/done_update', (req, res) => {
+    // console.log(req.body);
+    conn.query("update donetask set donetkname='" + req.body.donetkname + "', donetkdesc='" + req.body.donetkdesc + "'  where done_id=" + req.body.done_id + ";", function (err, result) {
+        if (err)
+            throw err;
         res.send(result);
     })
 });

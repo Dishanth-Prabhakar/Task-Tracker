@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { X } from 'lucide-react';
 import './addcard.css';
 
 function Viewdoing({ item, onClose }) {
+    const [id, setID] = useState('');
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
 
     useEffect(() => {
         if (item) {
+            setID(item.doing_id);
             setTitle(item.doingtkname);
             setDescription(item.doingtkdesc);
         }
@@ -16,9 +19,18 @@ function Viewdoing({ item, onClose }) {
     if (!item) return null;
 
     const handleupdoing = () => {
-        console.log('Title:', title);
-        console.log('Description:', description);
+        const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
+        axios.put(`${backendUrl}/doing_update`, {
+            doing_id: id,
+            doingtkname: title,
+            doingtkdesc: description
+        }).then(() => {
+            console.log("Updated doing task");
+        }).catch((error) => {
+            console.error("Error sending to backend:", error);
+        });
         onClose();
+        window.location.reload();
     };
 
     return (
