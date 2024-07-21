@@ -37,7 +37,7 @@ function Addtkdone({ onClose }) {
                             onChange={(e) => setDescription(e.target.value)}
                         />
                         <br />
-                        <button type="button" onClick={handleAdd}>Add</button>
+                        <button type="button" onClick={handleAdd} className='update-btn'>Add</button>
                     </form>
                 </div>
             </div>

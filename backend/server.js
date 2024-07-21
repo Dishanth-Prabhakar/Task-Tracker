@@ -69,13 +69,25 @@ app.get('/user_name', (req, res) => {
 
 // created datetime
 let currentTimestamp = {};
-const created = new Date(); 
+const created = new Date();
+const formattedDate = created.toLocaleString('en-IN', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+  hour: '2-digit',
+  minute: '2-digit',
+  second: '2-digit',
+  hour12: false
+}).replace(',', '');
+
+// console.log(formattedDate);
+
 
 // user backlog task insertion
 app.post("/backlog_task", function (req, res) {
     // console.log(req.body);
     // console.log("user task");
-    conn.query("insert into backtask(mail,backtkname, backtkdesc, backtkdate)values('" + userDetails.mail + "','" + req.body.backtkname + "','" + req.body.backtkdesc + "','" + created + "');", function (err, result) {
+    conn.query("insert into backtask(mail,backtkname, backtkdesc, backtkdate)values('" + userDetails.mail + "','" + req.body.backtkname + "','" + req.body.backtkdesc + "','" + formattedDate + "');", function (err, result) {
         if (err)
             throw err;
         // console.log(result);
@@ -117,7 +129,7 @@ app.delete('/backlog_delete', (req, res) => {
 app.post("/todo_task", function (req, res) {
     // console.log(req.body);
     // console.log("user task");
-    conn.query("insert into todotask(mail,todotkname, todotkdesc, todotkdate)values('" + userDetails.mail + "','" + req.body.todotkname + "','" + req.body.todotkdesc + "','" + created + "');", function (err, result) {
+    conn.query("insert into todotask(mail,todotkname, todotkdesc, todotkdate)values('" + userDetails.mail + "','" + req.body.todotkname + "','" + req.body.todotkdesc + "','" + formattedDate + "');", function (err, result) {
         if (err)
             throw err;
         // console.log(result);
@@ -159,7 +171,7 @@ app.delete('/todo_delete', (req, res) => {
 app.post("/doing_task", function (req, res) {
     // console.log(req.body);
     // console.log("user task");
-    conn.query("insert into doingtask(mail,doingtkname, doingtkdesc, doingtkdate)values('" + userDetails.mail + "','" + req.body.doingtkname + "','" + req.body.doingtkdesc + "','" + created + "');", function (err, result) {
+    conn.query("insert into doingtask(mail,doingtkname, doingtkdesc, doingtkdate)values('" + userDetails.mail + "','" + req.body.doingtkname + "','" + req.body.doingtkdesc + "','" + formattedDate + "');", function (err, result) {
         if (err)
             throw err;
         // console.log(result);
@@ -201,7 +213,7 @@ app.delete('/doing_delete', (req, res) => {
 app.post("/done_task", function (req, res) {
     // console.log(req.body);
     // console.log("user task");
-    conn.query("insert into donetask(mail,donetkname, donetkdesc, donetkdate)values('" + userDetails.mail + "','" + req.body.donetkname + "','" + req.body.donetkdesc + "','" + created + "');", function (err, result) {
+    conn.query("insert into donetask(mail,donetkname, donetkdesc, donetkdate)values('" + userDetails.mail + "','" + req.body.donetkname + "','" + req.body.donetkdesc + "','" + formattedDate + "');", function (err, result) {
         if (err)
             throw err;
         // console.log(result);
