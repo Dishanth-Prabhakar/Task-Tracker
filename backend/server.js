@@ -104,7 +104,14 @@ app.put('/backlog_update', (req, res) => {
 });
 
 // delete backlog task
-
+app.delete('/backlog_delete', (req, res) => {
+    const backtk_id = req.body.backtk_id;
+    conn.query("delete from backtask where backtk_id=" + backtk_id + ";", function (err, result) {
+        if (err)
+            throw err;
+        res.send(result);
+    })
+});
 
 // user to do task insertion
 app.post("/todo_task", function (req, res) {
@@ -138,6 +145,15 @@ app.put('/todo_update', (req, res) => {
     })
 });
 
+// delete todo task
+app.delete('/todo_delete', (req, res) => {
+    const todo_id = req.body.todo_id;
+    conn.query("delete from todotask where todo_id=" + todo_id + ";", function (err, result) {
+        if (err)
+            throw err;
+        res.send(result);
+    })
+});
 
 // user doing task insertion
 app.post("/doing_task", function (req, res) {
@@ -171,6 +187,16 @@ app.put('/doing_update', (req, res) => {
     })
 });
 
+// delete doing task 
+app.delete('/doing_delete', (req, res) => {
+    const doing_id = req.body.doing_id;
+    conn.query("delete from doingtask where doing_id=" + doing_id + ";", function (err, result) {
+        if (err)
+            throw err;
+        res.send(result);
+    })
+});
+
 // user done task insertion
 app.post("/done_task", function (req, res) {
     // console.log(req.body);
@@ -197,6 +223,16 @@ app.get('/donetk_fetch', (req, res) => {
 app.put('/done_update', (req, res) => {
     // console.log(req.body);
     conn.query("update donetask set donetkname='" + req.body.donetkname + "', donetkdesc='" + req.body.donetkdesc + "'  where done_id=" + req.body.done_id + ";", function (err, result) {
+        if (err)
+            throw err;
+        res.send(result);
+    })
+});
+
+// delete done task
+app.delete('/done_delete', (req, res) => {
+    const done_id = req.body.done_id;
+    conn.query("delete from donetask where done_id=" + done_id + ";", function (err, result) {
         if (err)
             throw err;
         res.send(result);

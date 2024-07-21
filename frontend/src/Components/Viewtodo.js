@@ -18,6 +18,7 @@ function Viewtodo({ item, onClose }) {
 
     if (!item) return null;
 
+    // to update todo task card api call
     const handleuptodo = () => {
         const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
         axios.put(`${backendUrl}/todo_update`, {
@@ -26,6 +27,20 @@ function Viewtodo({ item, onClose }) {
             todotkdesc: description
         }).then(() => {
             console.log("Updated todo task");
+        }).catch((error) => {
+            console.error("Error sending to backend:", error);
+        });
+        onClose();
+        window.location.reload();
+    };
+
+    // to delete todo task card api call
+    const handledeletetodo = () => {
+        const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
+        axios.delete(`${backendUrl}/todo_delete`, {
+            data: { todo_id: id }
+        }).then(() => {
+            console.log("delete todo task");
         }).catch((error) => {
             console.error("Error sending to backend:", error);
         });
@@ -50,7 +65,7 @@ function Viewtodo({ item, onClose }) {
                         />
                         <br />
                         <div className='view-btn'>
-                            <button type="button" onClick={handleuptodo} className='delete-btn'>Delete</button>
+                            <button type="button" onClick={handledeletetodo} className='delete-btn'>Delete</button>
                             <button type="button" onClick={handleuptodo} className='update-btn'>Update</button>
                         </div>
                     </form>

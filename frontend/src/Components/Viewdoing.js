@@ -18,6 +18,7 @@ function Viewdoing({ item, onClose }) {
 
     if (!item) return null;
 
+    // to update doing task card api call
     const handleupdoing = () => {
         const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
         axios.put(`${backendUrl}/doing_update`, {
@@ -26,6 +27,20 @@ function Viewdoing({ item, onClose }) {
             doingtkdesc: description
         }).then(() => {
             console.log("Updated doing task");
+        }).catch((error) => {
+            console.error("Error sending to backend:", error);
+        });
+        onClose();
+        window.location.reload();
+    };
+
+    // to delete doing task card api call
+    const handledeletedoing = () => {
+        const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
+        axios.delete(`${backendUrl}/doing_delete`, {
+            data: { doing_id: id }
+        }).then(() => {
+            console.log("delete doing task");
         }).catch((error) => {
             console.error("Error sending to backend:", error);
         });
@@ -50,7 +65,7 @@ function Viewdoing({ item, onClose }) {
                         />
                         <br />
                         <div className='view-btn'>
-                            <button type="button" onClick={handleupdoing} className='delete-btn'>Delete</button>
+                            <button type="button" onClick={handledeletedoing} className='delete-btn'>Delete</button>
                             <button type="button" onClick={handleupdoing} className='update-btn'>Update</button>
                         </div>
                     </form>

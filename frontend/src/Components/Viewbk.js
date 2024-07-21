@@ -18,6 +18,7 @@ function Viewbk({ item, onClose }) {
 
     if (!item) return null;
 
+    // to update backlog task card api call
     const handleupbk = () => {
         const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
         axios.put(`${backendUrl}/backlog_update`, {
@@ -26,6 +27,20 @@ function Viewbk({ item, onClose }) {
             backtkdesc: description
         }).then(() => {
             console.log("Updated backlog task");
+        }).catch((error) => {
+            console.error("Error sending to backend:", error);
+        });
+        onClose();
+        window.location.reload();
+    };
+
+    // to delete backlog task card api call
+    const handledeletebk = () => {
+        const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
+        axios.delete(`${backendUrl}/backlog_delete`, {
+            data: { backtk_id: id }
+        }).then(() => {
+            console.log("delete backlog task");
         }).catch((error) => {
             console.error("Error sending to backend:", error);
         });
@@ -53,7 +68,7 @@ function Viewbk({ item, onClose }) {
                         />
                         <br />
                         <div className='view-btn'>
-                            <button type="button" onClick={handleupbk} className='delete-btn'>Delete</button>
+                            <button type="button" onClick={handledeletebk} className='delete-btn'>Delete</button>
                             <button type="button" onClick={handleupbk} className='update-btn'>Update</button>
                         </div>
                     </form>

@@ -18,6 +18,7 @@ function Viewdone({ item, onClose }) {
 
     if (!item) return null;
 
+    // to update done task card api call
     const handleupdone = () => {
         const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
         axios.put(`${backendUrl}/done_update`, {
@@ -26,6 +27,20 @@ function Viewdone({ item, onClose }) {
             donetkdesc: description
         }).then(() => {
             console.log("Updated done task");
+        }).catch((error) => {
+            console.error("Error sending to backend:", error);
+        });
+        onClose();
+        window.location.reload();
+    };
+
+    // to delete done task card api call
+    const handledeletedone = () => {
+        const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
+        axios.delete(`${backendUrl}/done_delete`, {
+            data: { done_id: id }
+        }).then(() => {
+            console.log("delete done task");
         }).catch((error) => {
             console.error("Error sending to backend:", error);
         });
@@ -50,7 +65,7 @@ function Viewdone({ item, onClose }) {
                         />
                         <br />
                         <div className='view-btn'>
-                            <button type="button" onClick={handleupdone} className='delete-btn'>Delete</button>
+                            <button type="button" onClick={handledeletedone} className='delete-btn'>Delete</button>
                             <button type="button" onClick={handleupdone} className='update-btn'>Update</button>
                         </div>
                     </form>
