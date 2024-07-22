@@ -140,7 +140,7 @@ function Home() {
         }).catch((error) => {
             console.error("Error deleting from backlog:", error);
         });
-    };    
+    };
 
     // to move from backlog to doing task
     const bkmovedoing = (item) => {
@@ -410,6 +410,20 @@ function Home() {
                     <button onClick={handleSignOut} className="logout-button"><LogOut /></button>
                 </div>
             </nav>
+
+            <div className="search-sort-container">
+                <div className='search-part'>
+                    <label className='search-opt'>Search:</label>
+                    <input type='search' className='search-input'></input>
+                </div>
+                <div className='sort-opt'>
+                    <label htmlFor="sort-select">Sort by: </label>
+                    <select id="sort-select" className="sort-select">
+                        <option value="oldToNew">Old to New</option>
+                        <option value="recent">Recent</option>
+                    </select>
+                </div>
+            </div>
 
             {/* backlog column */}
             <div className="board">

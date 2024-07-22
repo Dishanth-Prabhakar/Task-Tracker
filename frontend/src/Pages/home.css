@@ -52,6 +52,49 @@ body{
     background-color: #d32f2f;
 }
 
+.search-sort-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 15px; 
+}
+
+.search-part {
+    flex: 1;
+    margin-left: 50px; 
+}
+
+.search-opt {
+    margin-right: 10px;
+}
+
+.search-input {
+    padding: 8px;
+    border: 1px solid #0000ff;
+    color: #000000;
+    background-color: #ffffff;
+    border-radius: 4px;
+    width: 200px; 
+}
+
+.sort-opt {
+    margin-right: 40px; 
+}
+
+.sort-select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #f0f0f0;
+}
+
+.column {
+    width: 24%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
 .board {
     display: flex;
     justify-content: space-around;
