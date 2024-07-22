@@ -28,6 +28,7 @@ body{
     border: 1px solid #ccc;
     border-radius: 5px;
     margin-right: 25px;
+    cursor: pointer;
 }
 
 .user-pic {

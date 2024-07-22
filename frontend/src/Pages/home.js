@@ -44,6 +44,9 @@ function Home() {
         }
     }, [isLoggedIn, handleSignOut]); 
 
+    const redirectToProfile = () => {
+        navigate('/profile');
+    };
 
     // to fetch username
     useEffect(() => {
@@ -57,7 +60,7 @@ function Home() {
     useEffect(() => {
         const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
         axios.get(`${backendUrl}/backtk_fetch`).then((response) => {
-            console.log(response.data);
+            // console.log(response.data);
             setbacklogdata(response.data);
         })
     }, [])
@@ -72,7 +75,7 @@ function Home() {
     useEffect(() => {
         const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
         axios.get(`${backendUrl}/todotk_fetch`).then((response) => {
-            console.log(response.data);
+            // console.log(response.data);
             settododata(response.data);
         })
     }, [])
@@ -87,7 +90,7 @@ function Home() {
     useEffect(() => {
         const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
         axios.get(`${backendUrl}/doingtk_fetch`).then((response) => {
-            console.log(response.data);
+            // console.log(response.data);
             setdoingdata(response.data);
         })
     }, [])
@@ -102,7 +105,7 @@ function Home() {
     useEffect(() => {
         const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
         axios.get(`${backendUrl}/donetk_fetch`).then((response) => {
-            console.log(response.data);
+            // console.log(response.data);
             setdonedata(response.data);
         })
     }, [])
@@ -120,7 +123,7 @@ function Home() {
                     <h1>Task Tracker</h1>
                 </div>
                 <div className="navbar-right">
-                    <div className='user-container'>
+                    <div className='user-container' onClick={redirectToProfile}>
                         <UserRound className="user-pic" />
                         <span className="user-name">{fname}</span>
                     </div>

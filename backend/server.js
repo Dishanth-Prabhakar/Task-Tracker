@@ -89,6 +89,24 @@ app.get('/user_name', (req, res) => {
     })
 });
 
+// user profile 
+app.get('/profile', (req, res) => {
+    conn.query("select * from user where ( mail='" + userDetails.mail + "');", function (err, result) {
+        if (err)
+            throw err;
+        res.send(result);
+    })
+})
+
+// Update user details
+app.put('/profile_update', (req, res) => {
+    conn.query("update user set fname='" + req.body.fname + "', lname='" + req.body.lname + "' , password='" + req.body.password + "'  where mail='" + req.body.mail + "';", function (err, result) {
+        if (err)
+            throw err;
+        res.send(result);
+    })
+});
+
 // created datetime
 let currentTimestamp = {};
 const created = new Date();
