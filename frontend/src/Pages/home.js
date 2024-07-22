@@ -29,6 +29,9 @@ function Home() {
     const [showViewdone, setViewdone] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
     const [activecard, setActiveCard] = useState(null);
+    // const [id, setID] = useState('');
+    // const [title, setTitle] = useState('');
+    // const [description, setDescription] = useState('');
     const navigate = useNavigate();
 
     const handleSignOut = useCallback(() => {
@@ -42,7 +45,7 @@ function Home() {
             const timeoutId = setTimeout(handleSignOut, 30 * 60000);
             return () => clearTimeout(timeoutId);
         }
-    }, [isLoggedIn, handleSignOut]); 
+    }, [isLoggedIn, handleSignOut]);
 
     const redirectToProfile = () => {
         navigate('/profile');
@@ -116,6 +119,283 @@ function Home() {
         setViewdone(true);
     };
 
+    // to move from backlog to ToDo task
+    const bkmovetodo = (item) => {
+        const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
+        // console.log("backtask id", item.backtk_id);
+        axios.delete(`${backendUrl}/backlog_delete`, {
+            data: { backtk_id: item.backtk_id }
+        }).then(() => {
+            // console.log("Deleted backlog task");
+            // Then, add the task to the to do list
+            axios.post(`${backendUrl}/todo_task`, {
+                todotkname: item.backtkname,
+                todotkdesc: item.backtkdesc
+            }).then(() => {
+                // console.log("Added task to To Do");
+                window.location.reload(); // Refresh the page
+            }).catch((error) => {
+                console.error("Error adding to To Do:", error);
+            });
+        }).catch((error) => {
+            console.error("Error deleting from backlog:", error);
+        });
+    };    
+
+    // to move from backlog to doing task
+    const bkmovedoing = (item) => {
+        const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
+        // console.log("backtask id", item.backtk_id);
+        axios.delete(`${backendUrl}/backlog_delete`, {
+            data: { backtk_id: item.backtk_id }
+        }).then(() => {
+            // console.log("Deleted backlog task");
+            // Then, add the task to the doing list
+            axios.post(`${backendUrl}/doing_task`, {
+                doingtkname: item.backtkname,
+                doingtkdesc: item.backtkdesc
+            }).then(() => {
+                // console.log("Added task to doing");
+                window.location.reload(); // Refresh the page
+            }).catch((error) => {
+                console.error("Error adding to doing:", error);
+            });
+        }).catch((error) => {
+            console.error("Error deleting from backlog:", error);
+        });
+
+    };
+
+    // to move from backlog to done task
+    const bkmovedone = (item) => {
+        const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
+        // console.log("backtask id", item.backtk_id);
+        axios.delete(`${backendUrl}/backlog_delete`, {
+            data: { backtk_id: item.backtk_id }
+        }).then(() => {
+            // console.log("Deleted backlog task");
+            // Then, add the task to the done list
+            axios.post(`${backendUrl}/done_task`, {
+                donetkname: item.backtkname,
+                donetkdesc: item.backtkdesc
+            }).then(() => {
+                // console.log("Added task to Done");
+                window.location.reload(); // Refresh the page
+            }).catch((error) => {
+                console.error("Error adding to To Do:", error);
+            });
+        }).catch((error) => {
+            console.error("Error deleting from backlog:", error);
+        });
+    };
+
+    // to move from todo to backlog
+    const todomovebk = (item) => {
+        const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
+        // console.log("todo id", item.todo_id);
+        axios.delete(`${backendUrl}/todo_delete`, {
+            data: { todo_id: item.todo_id }
+        }).then(() => {
+            // console.log("Deleted todo task");
+            // Then, add the task to the backlog list
+            axios.post(`${backendUrl}/backlog_task`, {
+                backtkname: item.todotkname,
+                backtkdesc: item.todotkdesc
+            }).then(() => {
+                // console.log("Added task to backlog");
+                window.location.reload(); // Refresh the page
+            }).catch((error) => {
+                console.error("Error adding to backlog:", error);
+            });
+        }).catch((error) => {
+            console.error("Error deleting from todo:", error);
+        });
+    };
+
+    // to move from todo to doing
+    const todomovedoing = (item) => {
+        const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
+        // console.log("todo id", item.todo_id);
+        axios.delete(`${backendUrl}/todo_delete`, {
+            data: { todo_id: item.todo_id }
+        }).then(() => {
+            // console.log("Deleted todo task");
+            // Then, add the task to the doing list
+            axios.post(`${backendUrl}/doing_task`, {
+                doingtkname: item.todotkname,
+                doingtkdesc: item.todotkdesc
+            }).then(() => {
+                // console.log("Added task to doing");
+                window.location.reload(); // Refresh the page
+            }).catch((error) => {
+                console.error("Error adding to Doing:", error);
+            });
+        }).catch((error) => {
+            console.error("Error deleting from todo:", error);
+        });
+    };
+
+    // to move from todo to done
+    const todomovedone = (item) => {
+        const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
+        // console.log("todo id", item.todo_id);
+        axios.delete(`${backendUrl}/todo_delete`, {
+            data: { todo_id: item.todo_id }
+        }).then(() => {
+            // console.log("Deleted todo task");
+            // Then, add the task to the done list
+            axios.post(`${backendUrl}/done_task`, {
+                donetkname: item.todotkname,
+                donetkdesc: item.todotkdesc
+            }).then(() => {
+                // console.log("Added task to Done");
+                window.location.reload(); // Refresh the page
+            }).catch((error) => {
+                console.error("Error adding to Done:", error);
+            });
+        }).catch((error) => {
+            console.error("Error deleting from todo:", error);
+        });
+    };
+
+    // to move from doing to backlog
+    const doingmovebk = (item) => {
+        const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
+        // console.log("doing id", item.doing_id);
+        axios.delete(`${backendUrl}/doing_delete`, {
+            data: { doing_id: item.doing_id }
+        }).then(() => {
+            // console.log("Deleted doing task");
+            // Then, add the task to the backlog list
+            axios.post(`${backendUrl}/backlog_task`, {
+                backtkname: item.doingtkname,
+                backtkdesc: item.doingtkdesc
+            }).then(() => {
+                // console.log("Added task to backlog");
+                window.location.reload(); // Refresh the page
+            }).catch((error) => {
+                console.error("Error adding to backlog:", error);
+            });
+        }).catch((error) => {
+            console.error("Error deleting from doing:", error);
+        });
+    };
+
+    // to move from doing to todo
+    const doingmovetodo = (item) => {
+        const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
+        // console.log("doing id", item.doing_id);
+        axios.delete(`${backendUrl}/doing_delete`, {
+            data: { doing_id: item.doing_id }
+        }).then(() => {
+            // console.log("Deleted doing task");
+            // Then, add the task to the todo list
+            axios.post(`${backendUrl}/todo_task`, {
+                todotkname: item.doingtkname,
+                todotkdesc: item.doingtkdesc
+            }).then(() => {
+                // console.log("Added task to todo");
+                window.location.reload(); // Refresh the page
+            }).catch((error) => {
+                console.error("Error adding to todo:", error);
+            });
+        }).catch((error) => {
+            console.error("Error deleting from doing:", error);
+        });
+    };
+
+    // to move from doing to done
+    const doingmovedone = (item) => {
+        const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
+        // console.log("doing id", item.doing_id);
+        axios.delete(`${backendUrl}/doing_delete`, {
+            data: { doing_id: item.doing_id }
+        }).then(() => {
+            // console.log("Deleted doing task");
+            // Then, add the task to the done list
+            axios.post(`${backendUrl}/done_task`, {
+                donetkname: item.doingtkname,
+                donetkdesc: item.doingtkdesc
+            }).then(() => {
+                // console.log("Added task to done");
+                window.location.reload(); // Refresh the page
+            }).catch((error) => {
+                console.error("Error adding to done:", error);
+            });
+        }).catch((error) => {
+            console.error("Error deleting from doing:", error);
+        });
+    };
+
+    // to move from done to backlog
+    const donemovebk = (item) => {
+        const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
+        // console.log("done id", item.done_id);
+        axios.delete(`${backendUrl}/done_delete`, {
+            data: { done_id: item.done_id }
+        }).then(() => {
+            // console.log("Deleted done task");
+            // Then, add the task to the backlog list
+            axios.post(`${backendUrl}/backlog_task`, {
+                backtkname: item.donetkname,
+                backtkdesc: item.donetkdesc
+            }).then(() => {
+                // console.log("Added task to backlog");
+                window.location.reload(); // Refresh the page
+            }).catch((error) => {
+                console.error("Error adding to backlog:", error);
+            });
+        }).catch((error) => {
+            console.error("Error deleting from done:", error);
+        });
+    };
+
+    // to move from done to todo
+    const donemovetodo = (item) => {
+        const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
+        // console.log("done id", item.done_id);
+        axios.delete(`${backendUrl}/done_delete`, {
+            data: { done_id: item.done_id }
+        }).then(() => {
+            // console.log("Deleted done task");
+            // Then, add the task to the todo list
+            axios.post(`${backendUrl}/todo_task`, {
+                todotkname: item.donetkname,
+                todotkdesc: item.donetkdesc
+            }).then(() => {
+                // console.log("Added task to todo");
+                window.location.reload(); // Refresh the page
+            }).catch((error) => {
+                console.error("Error adding to todo:", error);
+            });
+        }).catch((error) => {
+            console.error("Error deleting from done:", error);
+        });
+    };
+
+    // to move from done to doing
+    const donemovedoing = (item) => {
+        const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
+        // console.log("done id", item.done_id);
+        axios.delete(`${backendUrl}/done_delete`, {
+            data: { done_id: item.done_id }
+        }).then(() => {
+            // console.log("Deleted done task");
+            // Then, add the task to the doing list
+            axios.post(`${backendUrl}/doing_task`, {
+                doingtkname: item.donetkname,
+                doingtkdesc: item.donetkdesc
+            }).then(() => {
+                // console.log("Added task to doing");
+                window.location.reload(); // Refresh the page
+            }).catch((error) => {
+                console.error("Error adding to Doing:", error);
+            });
+        }).catch((error) => {
+            console.error("Error deleting from done:", error);
+        });
+    };
+
     return (
         <>
             <nav className="navbar">
@@ -140,6 +420,16 @@ function Home() {
                     <div className="cards">
                         {backlogdata.map((item, index) => (
                             <div className="card" key={index} draggable onDragStart={() => setActiveCard(index)} onDragEnd={() => setActiveCard(null)}>
+                                <div className="drop-down-container">
+                                    <div className="dropdown">
+                                        <button className="dropdown-button">Move to</button>
+                                        <div className="dropdown-content">
+                                            <button onClick={() => bkmovetodo(item)}>To Do</button>
+                                            <button onClick={() => bkmovedoing(item)}>Doing</button>
+                                            <button onClick={() => bkmovedone(item)}>Done</button>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div className="card-title">{item.backtkname}</div>
                                 <div className="card-description">Description: {item.backtkdesc}</div>
                                 <div className="card-date">Created at: {item.backtkdate}</div>
@@ -163,12 +453,22 @@ function Home() {
                         <h3 className="column-title">To Do</h3>
                     </div>
                     <div className="cards">
-                        { tododata.map((item, index) => (
-                                <div className="card" key={index} draggable onDragStart={() => setActiveCard(index)} onDragEnd={() => setActiveCard(null)}>
-                                    <div className="card-title">{item.todotkname}</div>
-                                    <div className="card-description">Description: {item.todotkdesc}</div>
-                                    <div className="card-date">Created at: {item.todotkdate}</div>
-                                    <div className="card-footer">
+                        {tododata.map((item, index) => (
+                            <div className="card" key={index} draggable onDragStart={() => setActiveCard(index)} onDragEnd={() => setActiveCard(null)}>
+                                <div className="drop-down-container">
+                                    <div className="dropdown">
+                                        <button className="dropdown-button">Move to</button>
+                                        <div className="dropdown-content">
+                                            <button onClick={() => todomovebk(item)}>Backlog</button>
+                                            <button onClick={() => todomovedoing(item)}>Doing</button>
+                                            <button onClick={() => todomovedone(item)}>Done</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="card-title">{item.todotkname}</div>
+                                <div className="card-description">Description: {item.todotkdesc}</div>
+                                <div className="card-date">Created at: {item.todotkdate}</div>
+                                <div className="card-footer">
                                     <div className="view-details" onClick={() => handleViewtodo(item)}>View Details</div>
                                 </div>
                             </div>
@@ -188,12 +488,22 @@ function Home() {
                         <h3 className="column-title">Doing</h3>
                     </div>
                     <div className="cards">
-                        { doingdata.map((item, index) => (
-                                <div className="card" key={index} draggable onDragStart={() => setActiveCard(index)} onDragEnd={() => setActiveCard(null)}>
-                                    <div className="card-title">{item.doingtkname}</div>
-                                    <div className="card-description">Description: {item.doingtkdesc}</div>
-                                    <div className="card-date">Created at: {item.doingtkdate}</div>
-                                    <div className="card-footer">
+                        {doingdata.map((item, index) => (
+                            <div className="card" key={index} draggable onDragStart={() => setActiveCard(index)} onDragEnd={() => setActiveCard(null)}>
+                                <div className="drop-down-container">
+                                    <div className="dropdown">
+                                        <button className="dropdown-button">Move to</button>
+                                        <div className="dropdown-content">
+                                            <button onClick={() => doingmovebk(item)}>Backlog</button>
+                                            <button onClick={() => doingmovetodo(item)}>To Do</button>
+                                            <button onClick={() => doingmovedone(item)}>Done</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="card-title">{item.doingtkname}</div>
+                                <div className="card-description">Description: {item.doingtkdesc}</div>
+                                <div className="card-date">Created at: {item.doingtkdate}</div>
+                                <div className="card-footer">
                                     <div className="view-details" onClick={() => handleViewdoing(item)}>View Details</div>
                                 </div>
                             </div>
@@ -213,12 +523,22 @@ function Home() {
                         <h3 className="column-title">Done</h3>
                     </div>
                     <div className="cards">
-                        { donedata.map((item, index) => (
-                                <div className="card" key={index} draggable onDragStart={() => setActiveCard(index)} onDragEnd={() => setActiveCard(null)}>
-                                    <div className="card-title">{item.donetkname}</div>
-                                    <div className="card-description">Description: {item.donetkdesc}</div>
-                                    <div className="card-date">Created at: {item.donetkdate}</div>
-                                    <div className="card-footer">
+                        {donedata.map((item, index) => (
+                            <div className="card" key={index} draggable onDragStart={() => setActiveCard(index)} onDragEnd={() => setActiveCard(null)}>
+                                <div className="drop-down-container">
+                                    <div className="dropdown">
+                                        <button className="dropdown-button">Move to</button>
+                                        <div className="dropdown-content">
+                                            <button onClick={() => donemovebk(item)}>Backlog</button>
+                                            <button onClick={() => donemovetodo(item)}>To Do</button>
+                                            <button onClick={() => donemovedoing(item)}>Doing</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="card-title">{item.donetkname}</div>
+                                <div className="card-description">Description: {item.donetkdesc}</div>
+                                <div className="card-date">Created at: {item.donetkdate}</div>
+                                <div className="card-footer">
                                     <div className="view-details" onClick={() => handleViewdone(item)}>View Details</div>
                                 </div>
                             </div>

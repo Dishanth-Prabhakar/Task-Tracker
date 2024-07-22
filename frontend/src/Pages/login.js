@@ -38,7 +38,7 @@ function Login() {
                     setStatus("Welcome");
                     setIsLoggedIn(true);
                     sessionStorage.setItem('token', response.data.token);
-                    console.log("mail", mail);
+                    // console.log("mail", mail);
                     sendtobackend(mail);
                     navigate('/home');
                 }
@@ -58,7 +58,7 @@ function Login() {
         axios.post(`${backendUrl}/google_login`, {
             mail: userEmail
         }).then((response) => {
-            console.log(response);
+            // console.log(response);
             if (response.data === "wrong") {
                 setStatus("Don't have an account > SignUp!");
             } else {
@@ -79,7 +79,7 @@ function Login() {
         axios.post(`${backendUrl}/logindetails`, {
             Mail: mailid
         }).then(() => {
-            console.log("Mail sent to backend");
+            // console.log("Mail sent to backend");
         }).catch((error) => {
             console.error("Error sending mail to backend:", error);
         });
