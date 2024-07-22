@@ -27,6 +27,23 @@ h2{
     font-size: 14px;
 }
 
+.input-group {
+    margin-bottom: 1em;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 0.5em;
+    box-sizing: border-box;
+}
+
+.error-message {
+    color: red;
+    font-size: 0.875em;
+    margin-top: 0.25em;
+    display: block;
+}
+
 .sign-form button {
     font-family: "Roboto", sans-serif;
     text-transform: uppercase;

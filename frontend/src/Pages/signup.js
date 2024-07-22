@@ -13,6 +13,11 @@ function Signup() {
     const [password, setPassword] = useState("");
     const [cpassword, setCPassword] = useState("");
     const [status, setStatus] = useState("");
+    const [fnamestatus, setFnameStatus] = useState("");
+    const [lnamestatus, setLnameStatus] = useState("");
+    const [mailstatus, setMailStatus] = useState("");
+    const [passStatus, setPassStatus] = useState("");
+    const [cpassStatus, setCpassStatus] = useState("");
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -25,42 +30,79 @@ function Signup() {
     // Manual signup process
     const handlesignup = (e) => {
         e.preventDefault();
+
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const namePattern = /^[A-Za-z]+$/;
+        const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+
+        setFnameStatus("");
+        setLnameStatus("");
+        setMailStatus("");
+        setPassStatus("");
+        setCpassStatus("");
+        setStatus("");
+
         if (fname === "" || lname === "" || mail === "" || password === "" || cpassword === "") {
             setStatus("All fields are mandatory fields");
             return;
         }
-        else {
-            const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
-            axios.post(`${backendUrl}/google_signup`, {
-                mail: mail
-            }).then((response) => {
-                console.log(response);
-                if (response.data === "present") {
-                    setStatus("Account already exists > Login!");
-                } else {
-                    const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
-                    axios.post(`${backendUrl}/user_signup`, {
-                        fname: fname,
-                        lname: lname,
-                        mail: mail,
-                        password: password
-                    }).then((response) => {
-                        if (response.data === "wrong") {
-                            setStatus("Invalid email or password");
-                        } else {
-                            setStatus("Welcome");
-                            setIsLoggedIn(true);
-                            sessionStorage.setItem('token', response.data.token);
-                            console.log("mail", mail);
-                            sendtobackend(mail);
-                            navigate('/home');
-                        }
-                    }).catch((error) => {
-                        console.error("Error logging in:", error);
-                    });
-                }
-            });
-        };
+
+        if (!namePattern.test(fname)) {
+            setFnameStatus("First name should contain only alphabets.");
+            return;
+        }
+
+        if (!namePattern.test(lname)) {
+            setLnameStatus("last name should contain only alphabets.");
+            return;
+        }
+
+        if (!emailPattern.test(mail)) {
+            setMailStatus("Please enter a valid email.");
+            return;
+        }
+
+        if (!passwordPattern.test(password)) {
+            setPassStatus("Password must be at least 6 characters long, contain one uppercase letter, one lowercase letter, one number, and one special character.");
+            return;
+        }
+
+        if (password !== cpassword) {
+            setCpassStatus("Both passwords do not match.");
+            return;
+        }
+
+
+        const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
+        axios.post(`${backendUrl}/google_signup`, {
+            mail: mail
+        }).then((response) => {
+            console.log(response);
+            if (response.data === "present") {
+                setStatus("Account already exists > Login!");
+            } else {
+                const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
+                axios.post(`${backendUrl}/user_signup`, {
+                    fname: fname,
+                    lname: lname,
+                    mail: mail,
+                    password: password
+                }).then((response) => {
+                    if (response.data === "wrong") {
+                        setStatus("Invalid email or password");
+                    } else {
+                        setStatus("Welcome");
+                        setIsLoggedIn(true);
+                        sessionStorage.setItem('token', response.data.token);
+                        console.log("mail", mail);
+                        sendtobackend(mail);
+                        navigate('/home');
+                    }
+                }).catch((error) => {
+                    console.error("Error logging in:", error);
+                });
+            }
+        });
     }
 
     // Google signup process
@@ -125,11 +167,26 @@ function Signup() {
                             <h5>{status}</h5>
                         </span>
                     </div>
-                    <input type="text" value={fname} placeholder='First name' onChange={(e) => setFname(e.target.value)} />
-                    <input type="text" value={lname} placeholder='Last name' onChange={(e) => setLname(e.target.value)} />
-                    <input type="text" value={mail} placeholder='Email' onChange={(e) => setMail(e.target.value)} />
-                    <input type="password" value={password} placeholder='Password' onChange={(e) => setPassword(e.target.value)} />
-                    <input type="password" value={cpassword} placeholder='Confirm password' onChange={(e) => setCPassword(e.target.value)} />
+                    <div className="input-group">
+                        <input type="text" value={fname} placeholder='First name' onChange={(e) => setFname(e.target.value)} />
+                        {fnamestatus && <span style={{ color: 'red' }}>{fnamestatus}</span>}
+                    </div>
+                    <div className="input-group">
+                        <input type="text" value={lname} placeholder='Last name' onChange={(e) => setLname(e.target.value)} />
+                        {lnamestatus && <span style={{ color: 'red' }}>{lnamestatus}</span>}
+                    </div>
+                    <div className="input-group">
+                        <input type="text" value={mail} placeholder='Email' onChange={(e) => setMail(e.target.value)} />
+                        {mailstatus && <span style={{ color: 'red' }}>{mailstatus}</span>}
+                    </div>
+                    <div className="input-group">
+                        <input type="password" value={password} placeholder='Password' onChange={(e) => setPassword(e.target.value)} />
+                        {passStatus && <span style={{ color: 'red' }}>{passStatus}</span>}
+                    </div>
+                    <div className="input-group">
+                        <input type="password" value={cpassword} placeholder='Confirm password' onChange={(e) => setCPassword(e.target.value)} />
+                        {cpassStatus && <span style={{ color: 'red' }}>{cpassStatus}</span>}
+                    </div>
                     <button type="submit">SignUp</button>
 
                     <p className='or-text'>Or Signup with</p>
