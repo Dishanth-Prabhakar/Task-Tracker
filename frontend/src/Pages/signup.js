@@ -33,7 +33,7 @@ function Signup() {
 
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const namePattern = /^[A-Za-z]+$/;
-        const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+        const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
         setFnameStatus("");
         setLnameStatus("");
@@ -43,7 +43,7 @@ function Signup() {
         setStatus("");
 
         if (fname === "" || lname === "" || mail === "" || password === "" || cpassword === "") {
-            setStatus("All fields are mandatory fields");
+            setStatus("All fields are mandatory to fill");
             return;
         }
 
@@ -63,7 +63,7 @@ function Signup() {
         }
 
         if (!passwordPattern.test(password)) {
-            setPassStatus("Password must be at least 6 characters long, contain one uppercase letter, one lowercase letter, one number, and one special character.");
+            setPassStatus("Password must be 8 characters long, should contain atleast one uppercase letter, one lowercase letter, one number, and one special character.");
             return;
         }
 
@@ -71,7 +71,6 @@ function Signup() {
             setCpassStatus("Both passwords do not match.");
             return;
         }
-
 
         const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
         axios.post(`${backendUrl}/google_signup`, {

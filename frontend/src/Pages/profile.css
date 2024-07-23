@@ -72,9 +72,10 @@ body{
 
 .sign-form {
     position: relative;
+    max-width: 430px;
     z-index: 1;
     background: #FFFFFF;
-    max-width: 480px;
+    width: 100%;
     padding: 30px;
     text-align: center;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
@@ -90,4 +91,19 @@ body{
     padding: 15px;
     box-sizing: border-box;
     font-size: 17px;
+}
+
+.input-group {
+    margin-bottom: 1em;
+}
+
+.input-group input {
+    padding: 0.5em;
+}
+
+.error-message {
+    color: red;
+    font-size: 0.875em;
+    margin-top: 0.25em;
+    display: block;
 }
