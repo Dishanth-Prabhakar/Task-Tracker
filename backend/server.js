@@ -21,7 +21,7 @@ app.listen(PORT, () => {
     console.log('Server is running on port ', PORT);
 });
 
-const conn = mysql.createConnection({ host: "localhost", user: process.env.dbuser, password: process.env.dbpassword, database: process.env.dbname });
+const conn = mysql.createConnection({ host: process.env.host, user: process.env.dbuser, password: process.env.dbpassword, database: process.env.dbname });
 
 conn.connect(function (err) {
     if (err)
